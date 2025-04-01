@@ -1,0 +1,130 @@
+{% extends 'my_amts/base.html' %}
+
+{% block title %}Login - AMTS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-section {
+        background: linear-gradient(135deg, rgba(26,35,126,0.05) 0%, rgba(40,53,147,0.05) 100%);
+        min-height: calc(100vh - 76px);
+        display: flex;
+        align-items: center;
+    }
+
+    .login-card {
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        border: none;
+        border-radius: 16px;
+        overflow: hidden;
+        background: white;
+        animation: fadeIn 0.5s ease;
+    }
+    
+    .login-card .card-header {
+        background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+        border-bottom: none;
+    }
+
+    .login-card .card-header h3 {
+        font-weight: 600;
+        margin: 0;
+        font-size: 1.75rem;
+    }
+    
+    .login-card .card-body {
+        padding: 2.5rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #424242;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control {
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #1a237e;
+        box-shadow: 0 0 0 4px rgba(26,35,126,0.1);
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+        border: none;
+        padding: 0.8rem 2rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(26,35,126,0.3);
+        background: linear-gradient(135deg, #151b58 0%, #1a237e 100%);
+    }
+
+    .register-link {
+        color: #1a237e;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .register-link:hover {
+        color: #283593;
+        text-decoration: underline;
+    }
+
+    .login-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="login-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="login-card">
+                    <div class="card-header">
+                        <div class="login-icon">🔑</div>
+                        <h3>Welcome Back</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            {% if request.GET.next %}
+                                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                            {% endif %}
+                            <div class="mb-4">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 py-2 mb-3">Login</button>
+                        </form>
+                        <div class="text-center">
+                            <p class="mb-0">Don't have an account? <a href="{% url 'register' %}" class="register-link">Register here</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

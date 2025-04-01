@@ -1,0 +1,2203 @@
+{% extends 'my_amts/base.html' %}
+
+{% block title %}Welcome to AMTS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRBsMIc0gvlTc_y6hciEOc6NAOL7qogFhkNA&s');
+        background-size: cover;
+        background-position: center;
+        height: 80vh;
+        display: flex;
+        align-items: center;
+        color: white;
+        margin-bottom: 0;
+        position: relative;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-buttons .btn {
+        margin: 0 10px;
+        padding: 12px 30px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .announcement-bar {
+        background: rgba(33, 150, 243, 0.1);
+        border-left: 4px solid var(--accent-color);
+        padding: 1rem;
+        margin-bottom: 3rem;
+        border-radius: 8px;
+    }
+
+    .feature-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+    }
+
+    .route-highlight {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf3 100%);
+        padding: 3rem 0;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .route-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        margin-bottom: 1.5rem;
+    }
+
+    .route-number {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .mobile-app-section {
+        background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+        color: white;
+        padding: 4rem 0;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .app-features li {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .app-features i {
+        margin-right: 1rem;
+        color: var(--accent-color);
+    }
+
+    .app-store-buttons img {
+        height: 50px;
+        margin: 10px;
+        transition: transform 0.3s;
+    }
+
+    .app-store-buttons img:hover {
+        transform: scale(1.05);
+    }
+
+    .stats-section {
+        background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+        color: white;
+        padding: 4rem 0;
+        margin: 0;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+
+    .news-card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .news-card img {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .footer {
+        background: #1a237e;
+        color: white;
+        padding: 4rem 0 2rem;
+    }
+
+    .footer-logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .footer-links h5 {
+        color: #90caf9;
+        margin-bottom: 1.5rem;
+    }
+
+    .footer-links ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    .social-links {
+        font-size: 1.5rem;
+    }
+
+    .social-links a {
+        color: white;
+        margin-right: 1rem;
+        transition: opacity 0.3s;
+    }
+
+    .social-links a:hover {
+        opacity: 0.8;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 3rem;
+        padding-top: 2rem;
+        text-align: center;
+    }
+
+    .travel-guide-card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        background: white;
+    }
+
+    .travel-guide-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .travel-guide-icon {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .travel-guide-card .card-body {
+        padding: 2rem;
+    }
+
+    .guide-tag {
+        display: inline-block;
+        padding: 0.3rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    .tag-tips { background: #e3f2fd; color: #1565c0; }
+    .tag-pass { background: #e8f5e9; color: #2e7d32; }
+    .tag-schedule { background: #fff3e0; color: #e65100; }
+
+    .search-section {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .search-item {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        transition: transform 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .search-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .search-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .search-route {
+        position: relative;
+        padding: 0 10px;
+    }
+
+    .route-point {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 10px 0;
+    }
+
+    .route-line {
+        position: absolute;
+        left: 19px;
+        top: 25px;
+        bottom: 25px;
+        width: 2px;
+        background: #e9ecef;
+    }
+
+    .stop-name {
+        font-weight: 500;
+        color: #495057;
+    }
+
+    .search-time {
+        margin-top: 8px;
+        font-size: 0.85rem;
+    }
+
+    .empty-searches {
+        padding: 2rem 1rem;
+        text-align: center;
+    }
+
+    .empty-searches img {
+        width: 64px;
+        height: 64px;
+        opacity: 0.7;
+    }
+
+    .btn-outline-primary {
+        border-width: 2px;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,123,255,0.2);
+    }
+
+    .quick-action-icon {
+        font-size: 2rem;
+        color: var(--primary-color);
+        background: rgba(26,35,126,0.1);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+    }
+
+    .stop-item {
+        margin-bottom: 1rem;
+    }
+
+    .alert-warning {
+        background-color: #fff3cd;
+        border-color: #ffeeba;
+        color: #856404;
+    }
+
+    .modal-content {
+        border-radius: 15px;
+        border: none;
+    }
+
+    .modal-header {
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        padding: 1.5rem;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .search-item, .stop-item {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 1.25rem;
+        transition: transform 0.2s ease;
+    }
+
+    .search-item:hover, .stop-item:hover {
+        transform: translateY(-2px);
+        background: #f1f3f5;
+    }
+
+    .quick-action-card .btn {
+        min-width: 200px;
+    }
+
+    .modal-dialog {
+        max-width: 500px;
+    }
+
+    .modal-content {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .modal-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        border-radius: 15px 15px 0 0;
+        padding: 1.25rem 1.5rem;
+    }
+
+    .modal-title {
+        font-weight: 600;
+        color: #1a237e;
+        font-size: 1.25rem;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .search-item {
+        background: #ffffff;
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .search-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .search-route {
+        position: relative;
+        padding: 0 10px;
+        margin-bottom: 1rem;
+    }
+
+    .route-point {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 0;
+    }
+
+    .route-point .stop-name {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #2c3e50;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .route-line {
+        position: absolute;
+        left: 19px;
+        top: 30px;
+        bottom: 30px;
+        width: 2px;
+        background: #e9ecef;
+    }
+
+    .search-time {
+        color: #6c757d;
+        font-size: 0.85rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .stop-item {
+        background: #ffffff;
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .stop-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .stop-item .stop-name {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #2c3e50;
+        margin-right: auto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 80%;
+    }
+
+    .bus-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+    }
+
+    .bus-badges .badge {
+        padding: 0.5rem 0.75rem;
+        font-weight: 500;
+        font-size: 0.85rem;
+    }
+
+    .location-info {
+        display: flex;
+        align-items: center;
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+
+    .modal .btn-primary {
+        padding: 0.6rem 1.5rem;
+        font-weight: 500;
+        border-radius: 8px;
+    }
+
+    .modal .btn-outline-primary {
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        border-radius: 8px;
+    }
+
+    .modal-body::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .modal-body::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 4px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 2rem 1rem;
+    }
+
+    .empty-state img {
+        width: 80px;
+        height: 80px;
+        opacity: 0.7;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state p {
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Nearby Stops Modal Styling */
+    .location-icon {
+        width: 80px;
+        height: 80px;
+        background: rgba(13, 110, 253, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        font-size: 2rem;
+        color: #0d6efd;
+    }
+
+    #nearbyStopsModal .modal-header {
+        background: #ffffff;
+        padding: 1.5rem;
+    }
+
+    #nearbyStopsModal .modal-title {
+        font-size: 1.25rem;
+        color: #2c3e50;
+    }
+
+    #nearbyStopsModal .modal-body {
+        padding: 0;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    #nearbyStopsModal .stop-item {
+        padding: 1.5rem;
+        border: none;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        border-radius: 0;
+        margin-bottom: 0;
+        background: #ffffff;
+    }
+
+    #nearbyStopsModal .stop-item:last-child {
+        border-bottom: none;
+    }
+
+    #nearbyStopsModal .stop-item:hover {
+        background: #f8f9fa;
+        transform: none;
+        box-shadow: none;
+    }
+
+    #nearbyStopsModal .stop-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1a237e;
+        margin-bottom: 0.25rem;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: initial;
+    }
+
+    #nearbyStopsModal .location-info {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+
+    #nearbyStopsModal .bus-badges {
+        margin-top: 0.75rem;
+    }
+
+    #nearbyStopsModal .bus-badges .badge {
+        background: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    #nearbyStopsModal .alert-warning {
+        background: #fff3cd;
+        border-radius: 0;
+        padding: 2rem;
+        margin: 0;
+    }
+
+    #nearbyStopsModal .btn-warning {
+        background: #ffc107;
+        border: none;
+        color: #000;
+        padding: 0.75rem;
+    }
+
+    #nearbyStopsModal .empty-state {
+        padding: 3rem 2rem;
+    }
+
+    #nearbyStopsModal .empty-state img {
+        width: 96px;
+        height: 96px;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Loading Animation */
+    .spinner-border {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    /* Scrollbar Styling */
+    #nearbyStopsModal .modal-body::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #nearbyStopsModal .modal-body::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    #nearbyStopsModal .modal-body::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+    }
+
+    #nearbyStopsModal .modal-body::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+
+    /* Add/Update these styles */
+    #nearbyStopsModal .modal-content {
+        border: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    #nearbyStopsModal .modal-header {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    #nearbyStopsModal .stop-item {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+
+    #nearbyStopsModal .stop-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    #nearbyStopsModal .stop-name {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #1a237e;
+        margin-bottom: 0.25rem;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: initial;
+    }
+
+    #nearbyStopsModal .location-info {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(13, 110, 253, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        color: #0d6efd;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    #nearbyStopsModal .buses-info {
+        margin-top: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.25rem;
+    }
+
+    #nearbyStopsModal .buses-info h6 {
+        color: #6c757d;
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+    }
+
+    #nearbyStopsModal .bus-routes {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    #nearbyStopsModal .bus-route-item {
+        display: flex;
+        align-items: flex-start;
+        padding: 0.75rem;
+        background: white;
+        border-radius: 8px;
+        transition: transform 0.2s ease;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    #nearbyStopsModal .bus-route-item:hover {
+        transform: translateX(5px);
+    }
+
+    #nearbyStopsModal .bus-route-item:last-child {
+        margin-bottom: 0;
+    }
+
+    #nearbyStopsModal .bus-route-item .badge {
+        /* background: #0d6efd; */
+        background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    #nearbyStopsModal .bus-route-item small {
+        flex: 1;
+        margin-left: 1rem;
+        color: #495057;
+        font-size: 0.9rem;
+    }
+
+    #nearbyStopsModal .modal-body {
+        padding: 1.5rem;
+        background: #f8f9fa;
+    }
+
+    #nearbyStopsModal .stop-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(13, 110, 253, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0d6efd;
+        font-size: 1.2rem;
+    }
+
+    #nearbyStopsModal .modal-dialog {
+        max-width: 500px;
+    }
+
+    /* Update these styles */
+    #nearbyStopsModal .stop-item {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    #nearbyStopsModal .stop-name {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #1a237e;
+        margin-bottom: 0.5rem;
+    }
+
+    #nearbyStopsModal .location-info {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.4rem 1rem;
+        background: #f0f4ff;
+        border-radius: 20px;
+        color: #1a237e;
+        font-size: 0.9rem;
+    }
+
+    #nearbyStopsModal .bus-routes {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    #nearbyStopsModal .bus-route-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    #nearbyStopsModal .bus-number {
+        background: #1a237e;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 1rem;
+        min-width: 70px;
+        text-align: center;
+        margin-right: 1.5rem;
+    }
+
+    #nearbyStopsModal .route-info {
+        flex: 1;
+        text-align: center;
+    }
+
+    #nearbyStopsModal .route-direction {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.95rem;
+        color: #495057;
+        gap: 1rem;
+    }
+
+    #nearbyStopsModal .from-stop,
+    #nearbyStopsModal .to-stop {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    #nearbyStopsModal .fa-arrow-right {
+        color: #1a237e;
+        font-size: 0.9rem;
+    }
+
+    #busDetailsModal .modal-dialog {
+        max-width: 700px;
+        margin: 1.75rem auto;
+    }
+
+    #busDetailsModal .modal-content {
+        border: none;
+        border-radius: 15px;
+        min-height: auto;
+    }
+
+    #busDetailsModal .modal-header {
+        background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-bottom: none;
+    }
+
+    #busDetailsModal .modal-title {
+        font-size: 1.1rem;
+    }
+
+    #busDetailsModal .modal-body {
+        padding: 1.5rem;
+        background: #f8f9fa;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    #busDetailsModal .search-box {
+        background: white;
+        padding: 1.25rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        margin-bottom: 1.5rem;
+    }
+
+    #busDetailsModal #busSearchInput {
+        font-size: 1rem;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        margin-bottom: 0.75rem;
+    }
+
+    .available-buses {
+        padding: 0.75rem;
+        border-radius: 8px;
+        background: #f8f9fa;
+    }
+
+    .bus-chip {
+        display: inline-block;
+        padding: 0.35rem 0.75rem;
+        background: #e3f2fd;
+        color: #1565c0;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 0.2rem;
+    }
+
+    .route-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.25rem;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    }
+
+    .route-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.25rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .bus-number-badge {
+        background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-right: 1rem;
+        box-shadow: 0 2px 8px rgba(26, 35, 126, 0.15);
+    }
+
+    .route-info {
+        flex: 1;
+    }
+
+    .route-name {
+        font-size: 1rem;
+        color: #1a237e;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .total-stops {
+        color: #666;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .stops-container {
+        margin-top: 1rem;
+    }
+
+    .stops-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.75rem 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .stops-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1a237e;
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .stops-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 0.75rem;
+        padding: 0.5rem;
+    }
+
+    .stop-item {
+        background: #f8f9fa;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: all 0.3s ease;
+    }
+
+    .stop-number {
+        background: #1a237e;
+        color: white;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 0.8rem;
+    }
+
+    .stop-name {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    @media (max-width: 768px) {
+        .stops-list {
+            grid-template-columns: 1fr;
+        }
+        
+        .terminal-stop {
+            margin: 1rem;
+        }
+    }
+
+    .travel-guide-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease;
+    }
+
+    .travel-guide-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .travel-guide-card .card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .guide-content {
+        font-size: 0.95rem;
+    }
+
+    .info-item h6 {
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .info-item p {
+        font-size: 0.95rem;
+    }
+
+    .info-item small {
+        font-size: 0.85rem;
+    }
+
+    .tip-item {
+        font-size: 0.9rem;
+    }
+
+    .tip-item .badge {
+        font-size: 0.8rem;
+        padding: 0.4em 0.8em;
+    }
+
+    .table {
+        font-size: 0.95rem;
+    }
+
+    .support-content {
+        font-size: 0.95rem;
+    }
+
+    .support-content i {
+        font-size: 1.2rem;
+    }
+
+    .support-content small {
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+
+    .overview-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease;
+    }
+
+    .overview-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .overview-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(26,35,126,0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: #1a237e;
+        font-size: 1.25rem;
+    }
+
+    .overview-card h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a237e;
+        margin-bottom: 0.5rem;
+    }
+
+    .overview-card p {
+        color: #666;
+        margin-bottom: 0;
+        font-size: 0.9rem;
+    }
+
+    .highlight-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        height: 100%;
+    }
+
+    .highlight-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(26,35,126,0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1a237e;
+        font-size: 1rem;
+    }
+
+    .highlight-card h5 {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1a237e;
+    }
+
+    .highlight-card p {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .guide-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        height: 100%;
+        transition: transform 0.3s ease;
+    }
+
+    .guide-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .guide-header {
+        background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+        color: white;
+        padding: 1rem 1.25rem;
+        border-radius: 12px 12px 0 0;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .guide-header i {
+        font-size: 1.25rem;
+    }
+
+    .guide-header h3 {
+        font-size: 1.1rem;
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .guide-content {
+        padding: 1.25rem;
+    }
+
+    .time-slot, .fare-item, .route-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .time-label, .fare-type {
+        color: #1a237e;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .time-value, .fare-value {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .bus-badge {
+        background: #1a237e;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .route-text {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .guide-tip {
+        margin-top: 1rem;
+        padding: 0.75rem;
+        background: #fff9e6;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .tips-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .tips-list li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+        font-size: 0.9rem;
+        color: #666;
+        position: relative;
+        padding-left: 1.25rem;
+    }
+
+    .tips-list li:before {
+        content: "•";
+        color: #1a237e;
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+    }
+
+    .web-feature-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        height: 100%;
+        transition: transform 0.3s ease;
+        overflow: hidden;
+    }
+
+    .web-feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    }
+
+    .feature-header {
+        background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+        color: white;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .feature-header i {
+        font-size: 1.5rem;
+        background: rgba(255,255,255,0.2);
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .feature-header h3 {
+        font-size: 1.2rem;
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .feature-content {
+        padding: 1.5rem;
+    }
+
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1.5rem 0;
+    }
+
+    .feature-list li {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #eee;
+        color: #444;
+        font-size: 0.95rem;
+        position: relative;
+        padding-left: 1.5rem;
+    }
+
+    .feature-list li:before {
+        content: "✓";
+        color: #1a237e;
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+    }
+
+    .feature-list li:last-child {
+        border-bottom: none;
+    }
+
+    .feature-highlight {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: #1a237e;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .feature-highlight i {
+        font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+        .feature-header {
+            padding: 1.25rem;
+        }
+
+        .feature-content {
+            padding: 1.25rem;
+        }
+    }
+
+    .info-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .info-header {
+        background: #f8f9fa;
+        padding: 1.25rem;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .info-header i {
+        font-size: 1.5rem;
+        color: #1a237e;
+    }
+
+    .info-header h3 {
+        font-size: 1.2rem;
+        margin: 0;
+        font-weight: 600;
+        color: #1a237e;
+    }
+
+    .info-content {
+        padding: 1.5rem;
+    }
+
+    .route-info-block {
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    .route-info-block:last-child {
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+    .route-name {
+        color: #1565c0;
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .timing-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+        color: #666;
+        font-size: 0.95rem;
+    }
+
+    .timing-item i {
+        color: #1a237e;
+        width: 20px;
+    }
+
+    .pass-type {
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+    }
+
+    .pass-type.student {
+        background: #e3f2fd;
+    }
+
+    .pass-type.monthly {
+        background: #e8f5e9;
+    }
+
+    .pass-label {
+        font-weight: 600;
+        color: #1a237e;
+        margin-bottom: 0.75rem;
+        font-size: 1.1rem;
+    }
+
+    .pass-features {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .pass-features li {
+        padding: 0.4rem 0;
+        color: #444;
+        font-size: 0.95rem;
+        position: relative;
+        padding-left: 1.5rem;
+    }
+
+    .pass-features li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #1a237e;
+        font-weight: bold;
+    }
+
+    .support-section {
+        margin-bottom: 1.5rem;
+    }
+
+    .support-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .support-label {
+        background: #1a237e;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        font-weight: 500;
+        margin-bottom: 1rem;
+        display: inline-block;
+    }
+
+    .support-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+        color: #444;
+        font-size: 0.95rem;
+    }
+
+    .support-item i {
+        color: #1a237e;
+        width: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .info-card {
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" data-aos="fade-in" data-aos-duration="1000">
+    <div class="container text-center hero-content animate__animated animate__fadeInDown">
+        {% if user.is_authenticated %}
+            <h1 class="display-4 mb-4 fw-bold">Welcome Back, {{ user.username }}!</h1>
+            <p class="lead mb-5">Plan your journey with AMTS - Your trusted travel companion in Ahmedabad</p>
+        {% else %}
+            <h1 class="display-3 mb-4 fw-bold">Your Smart Travel Companion</h1>
+            <p class="lead mb-5" style="font-size: 1.3rem;">Experience seamless city travel with real-time bus tracking, smart routes, and instant updates</p>
+            <div class="hero-buttons">
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg animate__animated animate__pulse animate__infinite">Get Started</a>
+                <a href="#features" class="btn btn-outline-light btn-lg animate__animated animate__fadeInUp">Learn More</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+{% if user.is_authenticated %}
+<!-- Quick Actions Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Quick Actions</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 quick-action-card">
+                    <div class="card-body text-center">
+                        <div class="quick-action-icon mb-3">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h5 class="mb-4">Recent Searches</h5>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#recentSearchesModal">
+                            View Recent Searches
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 quick-action-card">
+                    <div class="card-body text-center">
+                        <div class="quick-action-icon mb-3">
+                            <i class="fas fa-bus"></i>
+                        </div>
+                        <h5 class="mb-4">Bus Details</h5>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#busDetailsModal">
+                            View Bus Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 quick-action-card">
+                    <div class="card-body text-center">
+                        <div class="quick-action-icon mb-3">
+                            <i class="fas fa-map-location-dot"></i>
+                        </div>
+                        <h5 class="mb-4">Nearby Stops</h5>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nearbyStopsModal">
+                            Find Nearby Stops
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Travel Information Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">AMTS Web Features</h2>
+        <p class="text-center text-muted mb-5">Discover tools to make your bus travel easier</p>
+        
+        <div class="row g-4">
+            <!-- Route Search -->
+            <div class="col-md-4">
+                <div class="web-feature-card">
+                    <div class="feature-header">
+                        <i class="fas fa-route"></i>
+                        <h3>Route Search</h3>
+                    </div>
+                    <div class="feature-content">
+                        <ul class="feature-list">
+                            <li>Search bus routes by stop names</li>
+                            <li>View complete route details</li>
+                            <li>Find buses between any two stops</li>
+                            <li>Access your recent searches</li>
+                        </ul>
+                        <div class="feature-highlight">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Quick access to your recent searches!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bus Information -->
+            <div class="col-md-4">
+                <div class="web-feature-card">
+                    <div class="feature-header">
+                        <i class="fas fa-bus"></i>
+                        <h3>Bus Information</h3>
+                    </div>
+                    <div class="feature-content">
+                        <ul class="feature-list">
+                            <li>View detailed bus routes</li>
+                            <li>Check all stops on a route</li>
+                            <li>Find nearby bus stops</li>
+                            <li>Access bus numbers and routes</li>
+                        </ul>
+                        <div class="feature-highlight">
+                            <i class="fas fa-map-location-dot"></i>
+                            <span>Find the closest stops to your location!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Features -->
+            <div class="col-md-4">
+                <div class="web-feature-card">
+                    <div class="feature-header">
+                        <i class="fas fa-user"></i>
+                        <h3>User Features</h3>
+                    </div>
+                    <div class="feature-content">
+                        <ul class="feature-list">
+                            <li>Create and manage your account</li>
+                            <li>Access your search history</li>
+                            <li>View your recent searches</li>
+                            <li>Customize your profile settings</li>
+                        </ul>
+                        <div class="feature-highlight">
+                            <i class="fas fa-star"></i>
+                            <span>Keep track of your searches!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Travel Guide Cards -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3 class="text-center mb-4">Quick Travel Guides</h3>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="guide-card">
+                    <div class="guide-header">
+                        <i class="fas fa-map"></i>
+                        <h3>New to AMTS?</h3>
+                    </div>
+                    <div class="guide-content">
+                        <ul class="tips-list">
+                            <li>Use the search feature to find your route</li>
+                            <li>Check nearby stops for convenient access</li>
+                            <li>View complete bus route details</li>
+                            <li>Create an account to save preferences</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="guide-card">
+                    <div class="guide-header">
+                        <i class="fas fa-magnifying-glass"></i>
+                        <h3>Search Guide</h3>
+                    </div>
+                    <div class="guide-content">
+                        <ul class="tips-list">
+                            <li>Enter source and destination stops</li>
+                            <li>View available bus routes</li>
+                            <li>Check all stops on the route</li>
+                            <li>Access your recent searches easily</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="guide-card">
+                    <div class="guide-header">
+                        <i class="fas fa-circle-info"></i>
+                        <h3>Helpful Tips</h3>
+                    </div>
+                    <div class="guide-content">
+                        <ul class="tips-list">
+                            <li>Use the nearby stops feature</li>
+                            <li>Check complete route details</li>
+                            <li>Save your frequent searches</li>
+                            <li>Keep your account information updated</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% else %}
+<!-- Features Section for non-authenticated users -->
+<section class="py-5" id="features" data-aos="fade-up" data-aos-duration="1000">
+    <div class="container">
+        <h2 class="text-center mb-2 animate__animated animate__fadeInUp">Smart Features for Smart Travel</h2>
+        <p class="text-center text-muted mb-5 animate__animated animate__fadeInUp" data-aos-delay="100">Experience the future of public transportation with our innovative features</p>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100 p-4" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="card-body text-center">
+                        <div class="feature-icon"><i class="fas fa-magnifying-glass-location"></i></div>
+                        <h5 class="card-title">Smart Bus Search</h5>
+                        <p class="card-text">Search for buses between any two stops in Ahmedabad. Get instant results with multiple route options and transfer suggestions.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100 p-4" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="card-body text-center">
+                        <div class="feature-icon"><i class="fas fa-location-dot"></i></div>
+                        <h5 class="card-title">Live Bus Tracking</h5>
+                        <p class="card-text">Track your bus in real-time with our GPS tracking system. Know exactly when your bus will arrive at your stop.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100 p-4" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="card-body text-center">
+                        <div class="feature-icon"><i class="fas fa-ticket"></i></div>
+                        <h5 class="card-title">Easy Booking</h5>
+                        <p class="card-text">Book your bus tickets online with just a few clicks. Get digital tickets with QR codes for easy verification.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section py-5 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Daily Buses</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">100K+</div>
+                    <div class="stat-label">Daily Passengers</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">Routes</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">On-Time Arrival</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="footer-logo">🚌 AMTS</div>
+                <p>Your trusted partner for public transportation in Ahmedabad. Making your daily commute easier, safer, and more reliable.</p>
+                <div class="social-links mt-3">
+                    <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="col-md-2 mb-4">
+                <div class="footer-links">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'search' %}">Search Bus</a></li>
+                        <li><a href="{% url 'my_bookings' %}">My Bookings</a></li>
+                        <li><a href="#">About Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="footer-links">
+                    <h5>Services</h5>
+                    <ul>
+                        <li><a href="#">Bus Routes</a></li>
+                        <li><a href="#">Live Tracking</a></li>
+                       
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="footer-links">
+                    <h5>Contact Us</h5>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> AMTS Headquarters</li>
+                        <li><i class="fas fa-location-dot me-2"></i> Ahmedabad, Gujarat</li>
+                        <li><i class="fas fa-phone me-2"></i> 1800-123-4567</li>
+                        <li><i class="fas fa-envelope me-2"></i> support@amts.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="mb-0">&copy; {% now "Y" %} AMTS. All rights reserved. | <a href="#" class="text-white">Privacy Policy</a> | <a href="#" class="text-white">Terms of Service</a></p>
+        </div>
+    </div>
+</footer>
+
+<!-- Add these modals after your main content -->
+<!-- Recent Searches Modal -->
+<div class="modal fade" id="recentSearchesModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Recent Searches</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                {% if recent_searches %}
+                    {% for search in recent_searches %}
+                        <div class="search-item">
+                            <div class="search-route">
+                                <div class="route-point">
+                                    <i class="fas fa-circle-dot text-success"></i>
+                                    <div class="stop-name">{{ search.from_stop }}</div>
+                                </div>
+                                <div class="route-line"></div>
+                                <div class="route-point">
+                                    <i class="fas fa-location-dot text-danger"></i>
+                                    <div class="stop-name">{{ search.to_stop }}</div>
+                                </div>
+                            </div>
+                            <div class="search-time">
+                                <i class="far fa-clock me-1"></i>
+                                {{ search.search_time|timesince }} ago
+                            </div>
+                            <a href="{% url 'search' %}?from={{ search.from_stop|urlencode }}&to={{ search.to_stop|urlencode }}" 
+                               class="btn btn-outline-primary btn-sm w-100">
+                                <i class="fas fa-search me-1"></i> Search Again
+                            </a>
+                        </div>
+                        {% if not forloop.last %}<hr class="my-3">{% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <img src="https://img.icons8.com/color/96/000000/search-property.png" alt="No searches">
+                        <p class="mb-1">No recent searches found</p>
+                        <small class="text-muted">Your search history will appear here</small>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Nearby Stops Modal -->
+<div class="modal fade" id="nearbyStopsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header align-items-center">
+                <h5 class="modal-title">
+                    <i class="fas fa-map-location-dot me-2 text-primary"></i>
+                    Nearby Bus Stops
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="location-request" class="text-center py-4">
+                    <div class="location-icon mb-3">
+                        <i class="fas fa-location-crosshairs"></i>
+                    </div>
+                    <h6 class="mb-3">Find Bus Stops Near You</h6>
+                    <p class="text-muted mb-4">Enable location access to discover nearby bus stops</p>
+                    <button onclick="getLocation()" class="btn btn-primary px-4">
+                        <i class="fas fa-location-crosshairs me-2"></i>Turn On Location
+                    </button>
+                </div>
+
+                <div id="location-loading" class="text-center py-5 d-none">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="text-muted">Finding nearby stops...</p>
+                </div>
+
+                <div id="location-error" class="d-none">
+                    <div class="alert alert-warning border-0">
+                        <div class="text-center mb-3">
+                            <i class="fas fa-triangle-exclamation text-warning fs-1"></i>
+                        </div>
+                        <p id="error-message" class="text-center mb-3"></p>
+                        <button onclick="getLocation()" class="btn btn-warning w-100">
+                            <i class="fas fa-rotate me-2"></i>Try Again
+                        </button>
+                    </div>
+                </div>
+
+                <div id="nearby-stops-list" class="d-none">
+                    <!-- Stops will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bus Details Modal -->
+<div class="modal fade" id="busDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-bus me-2"></i>
+                    Bus Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="search-container mb-4">
+                    <div class="search-box">
+                        <input type="text" id="busSearchInput" class="form-control" placeholder="Enter bus number (e.g., 33, 58, 130)">
+                        <div class="available-buses mt-2">
+                            <small class="text-muted">Available buses: </small>
+                            <div id="availableBusList" class="d-flex flex-wrap gap-2 mt-1">
+                                <!-- Bus numbers will be populated here -->
+                            </div>
+                        </div>
+                        <button class="btn btn-primary w-100 mt-3" type="button" onclick="searchBusDetails()">
+                            <i class="fas fa-search me-2"></i>Search Bus Details
+                        </button>
+                    </div>
+                </div>
+                <div id="busDetailsList">
+                    <!-- Bus details will be loaded here -->
+                </div>
+                <div id="busDetailsLoading" class="text-center py-5 d-none">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="text-muted">Fetching bus details...</p>
+                </div>
+                <div id="noBusFound" class="text-center py-5 d-none">
+                    <div class="error-icon mb-3">
+                        <i class="fas fa-bus-slash"></i>
+                    </div>
+                    <h5 class="mb-3">Bus Not Found</h5>
+                    <p class="text-muted mb-4">The bus number you entered is not currently operating.</p>
+                    <p class="text-muted">Please try another bus number or click on one of the available buses above.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function getLocation() {
+    console.log("Getting location...");
+    
+    const locationRequest = document.getElementById('location-request');
+    const locationLoading = document.getElementById('location-loading');
+    const locationError = document.getElementById('location-error');
+    const nearbyStopsList = document.getElementById('nearby-stops-list');
+
+    // Show loading
+    locationRequest.classList.add('d-none');
+    locationLoading.classList.remove('d-none');
+    locationError.classList.add('d-none');
+    
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                console.log("Got position:", position.coords.latitude, position.coords.longitude);
+                fetchNearbyStops(position.coords.latitude, position.coords.longitude);
+            },
+            function(error) {
+                console.error("Error getting location:", error);
+                locationLoading.classList.add('d-none');
+                locationError.classList.remove('d-none');
+            },
+            {
+                enableHighAccuracy: true,  // Request high accuracy
+                timeout: 10000,           // Wait up to 10 seconds
+                maximumAge: 0             // Don't use cached position
+            }
+        );
+    } else {
+        locationLoading.classList.add('d-none');
+        locationError.classList.remove('d-none');
+    }
+}
+
+function fetchNearbyStops(lat, lng) {
+    console.log("Fetching stops for:", lat, lng);
+    
+    const locationLoading = document.getElementById('location-loading');
+    const nearbyStopsList = document.getElementById('nearby-stops-list');
+    
+    locationLoading.classList.remove('d-none');
+    
+    fetch(`/api/nearby-stops/?lat=${lat}&lng=${lng}`)
+        .then(response => response.json())
+        .then(data => {
+            locationLoading.classList.add('d-none');
+            
+            if (data.status === 'success' && data.stops && data.stops.length > 0) {
+                const stopsHtml = data.stops.map(stop => `
+                    <div class="stop-item">
+                        <div>
+                            <div class="stop-name">${stop.name}</div>
+                            <div class="location-info">
+                                <i class="fas fa-location-dot me-2"></i>
+                                ${stop.distance} km away
+                            </div>
+                        </div>
+                        <div class="buses-info">
+                            <div class="bus-routes">
+                                ${stop.buses.map(bus => `
+                                    <div class="bus-route-item">
+                                        <div class="bus-number">${bus.number}</div>
+                                        <div class="route-info">
+                                            <div class="route-direction">
+                                                <span class="from-stop">${bus.route.split(' → ')[0]}</span>
+                                                <i class="fas fa-arrow-right"></i>
+                                                <span class="to-stop">${bus.route.split(' → ')[1]}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                nearbyStopsList.innerHTML = stopsHtml;
+                nearbyStopsList.classList.remove('d-none');
+            } else {
+                nearbyStopsList.innerHTML = `
+                    <div class="empty-state text-center py-5">
+                        <img src="https://img.icons8.com/color/96/000000/bus-stop.png" alt="No stops" class="mb-4">
+                        <h5 class="mb-3">No Bus Stops Found</h5>
+                        <p class="text-muted mb-4">No bus stops were found within 1km of your location</p>
+                        <button onclick="getLocation()" class="btn btn-outline-primary">
+                            <i class="fas fa-rotate me-2"></i>Try Again1
+                        </button>
+                    </div>
+                `;
+                nearbyStopsList.classList.remove('d-none');
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            locationLoading.classList.add('d-none');
+            nearbyStopsList.classList.remove('d-none');
+            nearbyStopsList.innerHTML = `
+                <div class="text-center text-danger">
+                    <p>Error fetching nearby stops</p>
+                    <button onclick="getLocation()" class="btn btn-outline-danger btn-sm mt-2">
+                        <i class="fas fa-sync me-1"></i> Try Again
+                    </button>
+                </div>
+            `;
+        });
+}
+
+// Load available buses when the modal is shown
+document.getElementById('busDetailsModal').addEventListener('show.bs.modal', function (event) {
+    loadAvailableBuses();
+});
+
+async function loadAvailableBuses() {
+    try {
+        const response = await fetch('/available-buses/');
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            const busList = document.getElementById('availableBusList');
+            busList.innerHTML = data.buses
+                .sort()
+                .map(busNumber => `
+                    <div class="bus-chip" onclick="selectBus('${busNumber}')">
+                        ${busNumber}
+                    </div>
+                `).join('');
+        }
+    } catch (error) {
+        console.error('Error loading available buses:', error);
+    }
+}
+
+function selectBus(busNumber) {
+    document.getElementById('busSearchInput').value = busNumber;
+    searchBusDetails();
+}
+
+function searchBusDetails() {
+    const input = document.getElementById('busSearchInput');
+    const busNumber = input.value.trim();
+    
+    if (!busNumber) {
+        alert('Please enter a bus number');
+        return;
+    }
+
+    const loadingDiv = document.getElementById('busDetailsLoading');
+    const busDetailsList = document.getElementById('busDetailsList');
+    const noBusFound = document.getElementById('noBusFound');
+
+    loadingDiv.classList.remove('d-none');
+    busDetailsList.classList.add('d-none');
+    noBusFound.classList.add('d-none');
+
+    fetch(`/bus-details/?bus_number=${encodeURIComponent(busNumber)}`)
+        .then(response => response.json())
+        .then(data => {
+            loadingDiv.classList.add('d-none');
+            
+            if (data.error) {
+                noBusFound.classList.remove('d-none');
+            } else {
+                busDetailsList.innerHTML = `
+                    <div class="route-card">
+                        <div class="route-header">
+                            <div class="bus-number-badge">Bus ${data.bus_number}</div>
+                            <div class="route-info">
+                                <div class="route-name">${data.stops[0]} → ${data.stops[data.stops.length - 1]}</div>
+                                <div class="total-stops">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    ${data.total_stops} Stops
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stops-container">
+                            <div class="stops-header">
+                                <h6 class="stops-title">
+                                    <i class="fas fa-route me-2"></i>
+                                    Route Stops
+                                </h6>
+                            </div>
+                            <div class="stops-grid">
+                                ${data.stops.map((stop, index) => `
+                                    <div class="stop-item">
+                                        <div class="stop-number">${index + 1}</div>
+                                        <div class="stop-name">${stop}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                busDetailsList.classList.remove('d-none');
+            }
+        })
+        .catch(error => {
+            loadingDiv.classList.add('d-none');
+            noBusFound.classList.remove('d-none');
+            console.error('Error:', error);
+        });
+}
+</script>
+{% endblock %}

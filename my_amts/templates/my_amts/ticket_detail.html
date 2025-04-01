@@ -1,0 +1,205 @@
+{% extends 'my_amts/base.html' %}
+
+{% block title %}Ticket Details - AMTS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .ticket-detail-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        overflow: hidden;
+        background: white;
+    }
+
+    .ticket-header {
+        /* background: #0066ff; */
+        background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+        color: white;
+        padding: 1.5rem;
+        position: relative;
+    }
+
+    .back-btn {
+        background: white;
+        color: #0066ff;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+        background: #f8f9fa;
+        transform: translateY(-2px);
+    }
+
+    .section-title {
+        /* color: #0066ff; */
+        color: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #0066ff;
+        display: inline-block;
+    }
+
+    .info-label {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .info-value {
+        color: #2c3e50;
+        font-weight: 500;
+        font-size: 1.1rem;
+    }
+
+    .journey-box {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .qr-section {
+        text-align: center;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 12px;
+    }
+
+    .qr-code-img {
+        max-width: 200px;
+        padding: 1rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .validation-notice {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #fff3e0;
+        border-radius: 8px;
+        color: #e65100;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    .ticket-status {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+    }
+
+    .status-valid {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .status-expired {
+        background: #ffebee;
+        color: #c62828;
+    }
+
+    .expired-ticket-notice {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="ticket-detail-card">
+                <div class="ticket-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Ticket Details</h4>
+                    <a href="{% url 'my_bookings' %}" class="back-btn">Back to Bookings</a>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="mb-4">
+                                <h5 class="section-title">Ticket Information</h5>
+                                <div class="mb-3">
+                                    <div class="info-label">Ticket ID</div>
+                                    <div class="info-value">{{ ticket.ticket_id }}</div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5 class="section-title">Journey Details</h5>
+                                <div class="journey-box">
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <div>
+                                            <div class="info-label">From</div>
+                                            <div class="info-value">{{ ticket.booking.from_stop }}</div>
+                                        </div>
+                                        <div class="align-self-center">→</div>
+                                        <div>
+                                            <div class="info-label">To</div>
+                                            <div class="info-value">{{ ticket.booking.to_stop }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="info-label">Bus Number</div>
+                                    <div class="info-value">{{ ticket.booking.bus_number }}</div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h5 class="section-title">Booking Information</h5>
+                                <div class="info-label">Booked on</div>
+                                <div class="info-value">{{ ticket.booking.booking_date|date:"F j, Y, g:i a" }}</div>
+                                
+                                {% now "Y-m-d" as today %}
+                                {% with booking_date=ticket.booking.booking_date|date:"Y-m-d" %}
+                                <div class="ticket-status {% if booking_date == today %}status-valid{% else %}status-expired{% endif %}">
+                                    {% if booking_date == today %}Valid{% else %}Expired{% endif %}
+                                </div>
+                                {% endwith %}
+                            </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <div class="qr-section">
+                                <h5 class="section-title">QR Code</h5>
+                                {% now "Y-m-d" as today %}
+                                {% with booking_date=ticket.booking.booking_date|date:"Y-m-d" %}
+                                    {% if booking_date == today %}
+                                        <img src="{{ ticket.qr_code.url }}" alt="Ticket QR Code" class="img-fluid qr-code-img mb-3">
+                                        <p class="text-muted small mb-0">Show this QR code to the conductor for verification</p>
+                                    {% else %}
+                                        <div class="expired-ticket-notice">
+                                            <i class="fas fa-clock text-muted" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                            <p class="text-muted">This ticket has expired and the QR code is no longer available.</p>
+                                            <p class="text-muted small">Expired on {{ ticket.booking.booking_date|date:"F j, Y" }}</p>
+                                        </div>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+
+                            <div class="validation-notice">
+                                <strong>Note:</strong> This ticket is valid only for {{ ticket.booking.booking_date|date:"F j, Y" }} 
+                                until 11:59 PM. After that, the ticket will expire.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

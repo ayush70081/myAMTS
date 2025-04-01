@@ -1,0 +1,38 @@
+{% extends 'my_amts/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Ticket Details</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Ticket #{{ ticket.ticket_number }}</h5>
+                            <p><strong>From:</strong> {{ ticket.from_stop }}</p>
+                            <p><strong>To:</strong> {{ ticket.to_stop }}</p>
+                            <p><strong>Bus Number:</strong> {{ ticket.bus_number }}</p>
+                            <p><strong>Price:</strong> ₹{{ ticket.price }}</p>
+                            <p><strong>Purchase Date:</strong> {{ ticket.purchase_date|date:"F j, Y, g:i a" }}</p>
+                            <p><strong>Valid Until:</strong> {{ ticket.valid_until|date:"F j, Y, g:i a" }}</p>
+                            <p><strong>Status:</strong> 
+                                <span class="badge {% if ticket.status == 'ACTIVE' %}bg-success{% else %}bg-secondary{% endif %}">
+                                    {{ ticket.status }}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <h5>QR Code</h5>
+                            <img src="{{ ticket.qr_code.url }}" alt="Ticket QR Code" class="img-fluid">
+                            <p class="mt-2 text-muted">Show this QR code to the conductor</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

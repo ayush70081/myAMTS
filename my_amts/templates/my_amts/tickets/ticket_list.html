@@ -1,0 +1,35 @@
+{% extends 'my_amts/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4">My Tickets</h2>
+    
+    <div class="row">
+        {% for ticket in tickets %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ticket #{{ ticket.ticket_number }}</h5>
+                    <div class="card-text">
+                        <p><strong>Route:</strong> {{ ticket.from_stop }} → {{ ticket.to_stop }}</p>
+                        <p><strong>Bus:</strong> {{ ticket.bus_number }}</p>
+                        <p><strong>Price:</strong> ₹{{ ticket.price }}</p>
+                        <p><strong>Status:</strong> 
+                            <span class="badge {% if ticket.status == 'ACTIVE' %}bg-success{% else %}bg-secondary{% endif %}">
+                                {{ ticket.status }}
+                            </span>
+                        </p>
+                        <p><strong>Valid Until:</strong> {{ ticket.valid_until|date:"F j, Y, g:i a" }}</p>
+                    </div>
+                    <a href="{% url 'ticket_detail' ticket.ticket_number %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">You haven't purchased any tickets yet.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,255 @@
+{% extends 'my_amts/base.html' %}
+
+{% block title %}My Bookings - AMTS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .booking-section {
+        padding: 3rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: calc(100vh - 76px);
+    }
+
+    .booking-card {
+        background: white;
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+    }
+
+    .booking-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .booking-header {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        padding: 1.5rem;
+        color: white;
+        border-bottom: none;
+    }
+
+    .booking-id {
+        font-size: 0.9rem;
+        opacity: 0.9;
+        letter-spacing: 0.5px;
+    }
+
+    .route-info {
+        background-color: rgba(33, 150, 243, 0.05);
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin: 1rem 0;
+    }
+
+    .route-arrow {
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        margin: 0 1rem;
+    }
+
+    .stop-name {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .ticket-list {
+        margin-top: 1.5rem;
+    }
+
+    .ticket-item {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+        transition: all 0.2s ease;
+    }
+
+    .ticket-item:hover {
+        background: #e9ecef;
+    }
+
+    .passenger-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .passenger-name {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .passenger-age {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .booking-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        background: rgba(0,0,0,0.02);
+    }
+
+    .price-tag {
+        background: #e3f2fd;
+        color: var(--primary-color);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+
+    .status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .status-valid {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .status-expired {
+        background: #ffebee;
+        color: #c62828;
+    }
+
+    .booking-time {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .view-ticket-btn {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .view-ticket-btn:hover {
+        background: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .empty-state-icon {
+        font-size: 4rem;
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+    }
+
+    .empty-state-text {
+        color: #6c757d;
+        margin-bottom: 1.5rem;
+    }
+
+    .search-bus-btn {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .search-bus-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="booking-section">
+    <div class="container">
+        <h2 class="mb-4">My Bookings</h2>
+        
+        {% if bookings %}
+            <div class="row">
+                {% for booking in bookings %}
+                    {% now "Y-m-d" as today %}
+                    {% with booking_date=booking.booking_date|date:"Y-m-d" %}
+                    <div class="col-md-6">
+                        <div class="booking-card">
+                            <div class="booking-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="booking-id">Booking #{{ booking.booking_id|truncatechars:8 }}</div>
+                                        <h5 class="mb-0 mt-1">Bus {{ booking.bus_number }}</h5>
+                                    </div>
+                                    <span class="price-tag">₹{{ booking.total_amount }}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="route-info">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="text-center">
+                                            <small class="text-muted d-block mb-1">From</small>
+                                            <span class="stop-name">{{ booking.from_stop }}</span>
+                                        </div>
+                                        <span class="route-arrow">→</span>
+                                        <div class="text-center">
+                                            <small class="text-muted d-block mb-1">To</small>
+                                            <span class="stop-name">{{ booking.to_stop }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ticket-list">
+                                    {% for ticket in booking.tickets.all %}
+                                        <div class="ticket-item">
+                                            <div class="passenger-info">
+                                                <div>
+                                                    <span class="passenger-name">Ticket #{{ forloop.counter }}</span>
+                                                </div>
+                                                <a href="{% url 'ticket_detail' ticket.ticket_id %}" 
+                                                   class="view-ticket-btn" style="text-decoration: none;">View Ticket</a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="booking-details">
+                                    <div>
+                                        <small class="text-muted">Booked on</small>
+                                        <div class="booking-time">{{ booking.booking_date|date:"F j, Y, g:i a" }}</div>
+                                    </div>
+                                    <span class="status-badge {% if booking_date == today %}status-valid{% else %}status-expired{% endif %}">
+                                        {% if booking_date == today %}Valid{% else %}Expired{% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">🎫</div>
+                <h4>No Bookings Found</h4>
+                <p class="empty-state-text">You haven't made any bookings yet. Ready to plan your journey?</p>
+                <a href="{% url 'search' %}" class="search-bus-btn">Search Buses</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %} 

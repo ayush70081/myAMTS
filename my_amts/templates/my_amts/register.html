@@ -1,0 +1,269 @@
+{% extends 'my_amts/base.html' %}
+
+{% block title %}Register - AMTS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        overflow: hidden;
+        background: white;
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 1.5rem;
+        border: none;
+    }
+
+    .card-header h3 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #37474F;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        border: 2px solid #E0E0E0;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        border: none;
+        padding: 0.8rem 2rem;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(26, 35, 126, 0.2);
+    }
+
+    .form-text ul {
+        margin-top: 0.5rem;
+    }
+
+    .form-text li {
+        color: #666;
+        margin-bottom: 0.25rem;
+    }
+
+    .invalid-feedback {
+        color: var(--error-color);
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .alert-danger {
+        background-color: rgba(229, 57, 53, 0.1);
+        border: 1px solid var(--error-color);
+        color: var(--error-color);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .text-center a {
+        color: var(--accent-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .text-center a:hover {
+        color: var(--primary-color);
+        text-decoration: underline;
+    }
+
+    /* Password strength indicators */
+    .password-strength {
+        height: 4px;
+        margin-top: 0.5rem;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    .strength-weak {
+        background: #ff5252;
+        width: 30%;
+    }
+
+    .strength-medium {
+        background: #ffd740;
+        width: 60%;
+    }
+
+    .strength-strong {
+        background: #69f0ae;
+        width: 100%;
+    }
+
+    /* Animation for form submission */
+    .btn-primary:active {
+        transform: scale(0.95);
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+
+    .is-invalid {
+        animation: shake 0.3s ease-in-out;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Create Account</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
+                                   id="username" name="username" value="{{ form.username.value|default:'' }}" required>
+                            {% if form.username.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.username.errors|join:", " }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" 
+                                   id="email" name="email" value="{{ form.email.value|default:'' }}" required>
+                            {% if form.email.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.email.errors|join:", " }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="password1" class="form-label">Password</label>
+                            <input type="password" class="form-control {% if form.password1.errors %}is-invalid{% endif %}" 
+                                   id="password1" name="password1" required>
+                            <div class="password-strength" id="passwordStrength"></div>
+                            {% if form.password1.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.password1.errors|join:", " }}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">
+                                <ul class="small ps-3 mb-0">
+                                    <li>Your password must contain at least 8 characters</li>
+                                    <li>Your password can't be entirely numeric</li>
+                                    <li>Your password can't be a commonly used password</li>
+                                    <li>Your password can't be too similar to your username</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password2" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control {% if form.password2.errors %}is-invalid{% endif %}" 
+                                   id="password2" name="password2" required>
+                            {% if form.password2.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.password2.errors|join:", " }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors|join:", " }}
+                            </div>
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary w-100">Create Account</button>
+                    </form>
+                    <div class="text-center mt-4">
+                        <p class="mb-0">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Password strength indicator
+    document.getElementById('password1').addEventListener('input', function(e) {
+        const password = e.target.value;
+        const strengthBar = document.getElementById('passwordStrength');
+        
+        // Simple password strength check
+        let strength = 0;
+        if (password.length >= 8) strength++;
+        if (password.match(/[A-Z]/)) strength++;
+        if (password.match(/[0-9]/)) strength++;
+        if (password.match(/[^A-Za-z0-9]/)) strength++;
+
+        // Update strength bar
+        strengthBar.className = 'password-strength';
+        if (strength === 0) {
+            strengthBar.style.width = '0';
+        } else if (strength <= 2) {
+            strengthBar.classList.add('strength-weak');
+        } else if (strength === 3) {
+            strengthBar.classList.add('strength-medium');
+        } else {
+            strengthBar.classList.add('strength-strong');
+        }
+    });
+
+    // Password match check
+    document.getElementById('password2').addEventListener('input', function(e) {
+        const password1 = document.getElementById('password1').value;
+        const password2 = e.target.value;
+        
+        if (password2 && password1 !== password2) {
+            e.target.classList.add('is-invalid');
+            if (!e.target.nextElementSibling || !e.target.nextElementSibling.classList.contains('invalid-feedback')) {
+                const feedback = document.createElement('div');
+                feedback.className = 'invalid-feedback';
+                feedback.textContent = 'Passwords do not match';
+                e.target.parentNode.insertBefore(feedback, e.target.nextSibling);
+            }
+        } else {
+            e.target.classList.remove('is-invalid');
+            const feedback = e.target.nextElementSibling;
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
+                feedback.remove();
+            }
+        }
+    });
+</script>
+{% endblock %} 

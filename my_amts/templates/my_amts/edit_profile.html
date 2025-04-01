@@ -1,0 +1,126 @@
+{% extends 'my_amts/base.html' %}
+
+{% block title %}Edit Profile - AMTS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .edit-profile-section {
+        padding: 3rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: calc(100vh - 76px);
+    }
+
+    .edit-profile-card {
+        background: white;
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+
+    .edit-profile-header {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        padding: 1.5rem;
+        color: white;
+        text-align: center;
+    }
+
+    .edit-profile-body {
+        padding: 2rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #666;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 0.8rem;
+        border: 1px solid #dee2e6;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(26, 35, 126, 0.25);
+    }
+
+    .save-button {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .save-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .cancel-button {
+        /* background: linear-gradient(135deg, #6c757d 0%, #495057 100%); */
+        background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        width: 100%;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .cancel-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        color: white;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="edit-profile-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="edit-profile-card">
+                    <div class="edit-profile-header">
+                        <h2 class="mb-0">Edit Profile</h2>
+                    </div>
+                    <div class="edit-profile-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label for="id_username" class="form-label">Username</label>
+                                <input type="text" name="username" value="{{ user.username }}" 
+                                       class="form-control" id="id_username" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="id_email" class="form-label">Email</label>
+                                <input type="email" name="email" value="{{ user.email }}" 
+                                       class="form-control" id="id_email" required>
+                            </div>
+                            <button type="submit" class="save-button">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                            <a href="{% url 'profile' %}" class="cancel-button">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 
