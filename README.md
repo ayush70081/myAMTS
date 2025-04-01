@@ -90,12 +90,9 @@ The admin interface is available at http://127.0.0.1:8000/admin/ and provides:
 
 ## License
 
-[Specify license information]
+[license information]
 
 ## Contributors
 
-[List of contributors]
+[Ayush Patel](https://github.com/ayush70081)
 
-## Contact
-
-[Contact information] 
